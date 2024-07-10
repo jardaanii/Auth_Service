@@ -76,3 +76,6 @@ module.exports = {
   signIn,
   isAuthenticated,
 };
+
+// Try to implement verify email in auth service such that if
+// it is in the 64th vedio of backend course at 1:52 hours
