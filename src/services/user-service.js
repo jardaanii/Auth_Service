@@ -3,6 +3,7 @@ const UserRepository = require("../repository/user-repository");
 const { JWT_KEY } = require("../config/serverConfig");
 const bcrypt = require("bcrypt");
 const AppErrors = require("../utils/error-handler");
+const ClientError = require("../utils/client-error");
 class UserService {
   constructor() {
     this.userRepository = new UserRepository();
@@ -70,6 +71,9 @@ class UserService {
       });
       return newJWT;
     } catch (error) {
+      if (error instanceof ClientError) {
+        throw error;
+      }
       console.log("Something went wrong in the service layer", error);
       throw { error };
     }

@@ -1,5 +1,7 @@
 const { User, Role } = require("../models/index");
 const ValidationError = require("../utils/validation-error");
+const ClientError = require("../utils/client-error");
+const { StatusCodes } = require("http-status-codes");
 
 class UserRepository {
   async create(data) {
@@ -53,10 +55,20 @@ class UserRepository {
           email: userEmail,
         },
       });
+
+      if (!user) {
+        throw new ClientError(
+          "AttributeNotFound",
+          "Invalid emial sent in the request",
+          "Please check the email, as there is no record of the emial",
+          StatusCodes.NOT_FOUND
+        );
+      }
+
       return user;
     } catch (error) {
       console.log("Something went wrong in the repository layer");
-      throw { error };
+      throw error;
     }
   }
 
