@@ -16,11 +16,11 @@ const create = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({
-      message: "Something went wrong in Controller",
+    return res.status(error.statusCode).json({
+      message: error.message,
       data: {},
       success: false,
-      err: error,
+      err: error.explaination,
     });
   }
 };
@@ -83,7 +83,7 @@ const isAdmin = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({
+    return res.status(error.statusCode).json({
       message: "Something went wrong in Controller",
       data: {},
       success: false,
