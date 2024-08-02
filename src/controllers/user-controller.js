@@ -91,12 +91,35 @@ const isAdmin = async (req, res) => {
     });
   }
 };
+const get = async (req, res) => {
+  try {
+    const response = await userService.getUser(req.params.id);
+
+    return res.status(200).json({
+      success: true,
+      message: "Successfully fetched  user ",
+      data: {
+        email: response.email,
+      },
+      err: {},
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(error.statusCode).json({
+      message: "Something went wrong in Controller",
+      data: {},
+      success: false,
+      err: error,
+    });
+  }
+};
 
 module.exports = {
   create,
   signIn,
   isAuthenticated,
   isAdmin,
+  get,
 };
 
 // Try to implement verify email in auth service such that if
